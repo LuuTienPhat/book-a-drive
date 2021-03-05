@@ -1,12 +1,62 @@
-#map {
-  height: 100%;
-  width: 960px;
-}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+}
 /* Optional: Makes the sample page fill the window. */
 html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  height: 100vh;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid black;
+}
+
+#map {
+  height: 50%;
+  width: inherit;
+}
+
+.option-table {
+  height: 50%;
+  width: 100%;
+  padding: 10px;
+}
+
+.option-table .input-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  padding: 10px 20px;
+}
+
+.option-table .input {
+  height: 30px;
+  width: 100%;
+  padding: 0 0 0 10px;
+  margin: 0 0 0 10px;
+  border: none;
+  outline: none;
+}
+
+.option-table .input::placeholder {
+  font-weight: bolder;
 }
