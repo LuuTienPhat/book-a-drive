@@ -27,11 +27,11 @@ async function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
           center: pos,
           zoom: 15,
+          disableDefaultUI: true,
         });
         new google.maps.Marker({
           position: pos,
           map: map,
-          disableDefaultUI: true,
         });
       },
       () => {
