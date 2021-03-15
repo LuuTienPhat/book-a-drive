@@ -1,0 +1,42 @@
+.nav-bar {
+  height: 6%;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: gray;
+  position: relative;
+}
+
+.nav-bar i {
+  font-size: 20px;
+  color: whitesmoke;
+}
+
+.nav-bar .title {
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+.nav-bar .account {
+  height: 25px;
+  width: 25px;
+  background: whitesmoke;
+  border-radius: 50%;
+}
+
+.overlay-menu {
+  height: 100px;
+  width: 200px;
+  position: absolute;
+  top: 120px;
+  right: 0;
+  z-index: 10;
+  background-color: white;
+}
+
+.hide {
+  /* display: none; */
+}

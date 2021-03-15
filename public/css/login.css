@@ -1,0 +1,108 @@
+.container {
+  height: 100vh;
+  width: 100%;
+
+  background-image: url(/image/road4.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: whitesmoke;
+}
+
+.form-box {
+  height: 400px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: transparent;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.form-box::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url(/image/road4.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(10px);
+  overflow: hidden;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+}
+
+.message {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+}
+
+form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  z-index: 2;
+}
+
+form div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 20px 0;
+}
+
+input[type="text"] {
+  height: 40px;
+  margin: 5px 0 0 0;
+  outline: none;
+  border: none;
+  /* border-radius: 5px; */
+  border-bottom: 1px solid white;
+  padding: 10px;
+  background: none;
+  color: whitesmoke;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+button {
+  width: 50%;
+  margin: 20px 0 0 0;
+  height: 40px;
+  border: 2px solid whitesmoke;
+  outline: none;
+  border-radius: 5px;
+  background: transparent;
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+a {
+  margin: 40px 0 0 0;
+  color: whitesmoke;
+  font-size: 16px;
+}

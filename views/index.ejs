@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("./partials/head") %>
+    <title></title>
+    <script src="/js/index.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="origin" data-origin="<%=origin %>"></div>
+    <div class="destination" data-destination="<%=destination %>"></div>
+    <div class="container">
+      <%- include('./partials/header') %>
+      <div id="map"></div>
+      <div class="option-table">
+        <% if (!origin) { %>
+          <%- include('./partials/historyPanel') %>
+        <% } else {%>
+          <%- include('./partials/pricePanel') %>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABQUzWcMn3ud6gI0O8QcX_qxYqp4OT6dc&region=VI&language=vi&callback=initMap&libraries=places&v=weekly"></script>
+    <!-- <script src="./style.js"></script> -->
+  </body>
+</html>

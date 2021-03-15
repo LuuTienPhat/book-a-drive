@@ -1,6 +1,32 @@
 let map, infoWindow;
 
 let destination = {};
+let placeSearchHistory = [
+  {
+    formatted_address:
+      "Chợ Bà Chiểu, đường, Bạch Đằng, Phường 1, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Việt Nam",
+    name: "Chợ Bà Chiểu",
+  },
+];
+
+const renderPlaceSearchHistory = (placeSearchHistory) => {
+  const result = placeSearchHistory.map((place) => {
+    return `<div class="place-item" data-address="${place.formatted_address}">
+              <i class="fas fa-map-marker-alt"></i>   
+              <div style = "margin-left: 20px">
+                <h4>${place.name}</h4>
+                <div style = "color: grey; margin-top: 2px">
+                  ${place.formatted_address}
+                </div>
+              </div> 
+            </div>`;
+  });
+
+  const history = document.querySelector(".history");
+  console.log(history);
+  console.log();
+  history.innerHTML = result.join("");
+};
 
 const getCurrentLocation = async () => {
   const pos = await new Promise((resolve, reject) => {
@@ -12,6 +38,35 @@ const getCurrentLocation = async () => {
     lng: pos.coords.longitude,
   };
 };
+
+function CenterControl(controlDiv, map, currentLocation) {
+  const controlBox = document.createElement("div");
+  controlBox.style.backgroundColor = "whitesmoke";
+  controlBox.style.padding = "10px";
+  controlBox.style.borderRadius = "50%";
+  controlBox.style.margin = "0 30px 30px 0 ";
+
+  const controlIcon = document.createElement("div");
+  controlIcon.style.backgroundImage = "url(cursor.svg)";
+  controlIcon.style.backgroundPosition = "center";
+  controlIcon.style.backgroundRepeat = "no-repeat";
+  controlIcon.style.backgroundSize = "cover";
+  controlIcon.style.cursor = "pointer";
+  controlIcon.style.height = "20px";
+  controlIcon.style.width = "20px";
+  controlBox.appendChild(controlIcon);
+
+  controlDiv.appendChild(controlBox);
+
+  controlDiv.addEventListener("click", () => {
+    map.setCenter(currentLocation);
+    map.setZoom(15);
+    new google.maps.Marker({
+      map: map,
+      position: currentLocation,
+    });
+  });
+}
 
 const getCurrentLocationName = async (latlng) => {
   const geocoder = new google.maps.Geocoder();
@@ -67,7 +122,7 @@ const calculateAndDisplayRoute = (
     {
       origin: origin,
       destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
+      travelMode: google.maps.TravelMode.WALKING,
       avoidFerries: true,
       avoidHighways: true,
       avoidTolls: true,
@@ -133,6 +188,26 @@ async function initMap() {
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const currentLocationName = await getCurrentLocationName(currentLocation);
 
+  //add function for place-item
+  renderPlaceSearchHistory(placeSearchHistory);
+  let placeItems = document.querySelectorAll(".place-item");
+  placeItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const formattedAddress = item.dataset.address;
+      calculateAndDisplayRoute(
+        currentLocation,
+        formattedAddress,
+        directionsService,
+        directionsRenderer,
+        map
+      );
+    });
+  });
+
+  const centerControlDiv = document.createElement("div");
+  CenterControl(centerControlDiv, map, currentLocation);
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
+
   const defaultBounds = {
     north: currentLocation.lat + 0.1,
     south: currentLocation.lat - 0.1,
@@ -155,11 +230,14 @@ async function initMap() {
   const optionTable = document.querySelector(".option-table");
   const price = document.querySelector(".price");
   const priceList = document.querySelector(".price-list");
-  console.log(priceList);
+  // console.log(priceList);
+
+  const history = document.querySelector(".history");
 
   const onInputClicked = () => {
     document.getElementById("map").style.height = "0%";
     optionTable.style.height = "100vh";
+    history.classList.add("hide");
   };
 
   input.addEventListener("click", onInputClicked);
@@ -177,8 +255,11 @@ async function initMap() {
         directionsRenderer,
         map
       );
+      placeSearchHistory.push(place);
+      console.log(placeSearchHistory);
       // console.log(directionsRenderer.directions);
       priceList.classList.remove("hide");
+
       document.getElementById("map").style.height = "50%";
       optionTable.style.height = "50%";
     }

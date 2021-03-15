@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script async src="./init.js"></script>
     <script src="./index.js"></script>
 
     <!-- <script
@@ -19,39 +20,12 @@
     />
   </head>
   <body>
-    <!-- <div id="floating-panel">
-      <b>Start: </b>
-      <select id="start">
-        <option value="tan phu">Chicago</option>
-        <option value="st louis, mo">St Louis</option>
-        <option value="joplin, mo">Joplin, MO</option>
-        <option value="oklahoma city, ok">Oklahoma City</option>
-        <option value="amarillo, tx">Amarillo</option>
-        <option value="gallup, nm">Gallup, NM</option>
-        <option value="flagstaff, az">Flagstaff, AZ</option>
-        <option value="winona, az">Winona</option>
-        <option value="kingman, az">Kingman</option>
-        <option value="barstow, ca">Barstow</option>
-        <option value="san bernardino, ca">San Bernardino</option>
-        <option value="los angeles, ca">Los Angeles</option>
-      </select>
-      <b>End: </b>
-      <select id="end">
-        <option value="tan binh">Chicago</option>
-        <option value="st louis, mo">St Louis</option>
-        <option value="joplin, mo">Joplin, MO</option>
-        <option value="oklahoma city, ok">Oklahoma City</option>
-        <option value="amarillo, tx">Amarillo</option>
-        <option value="gallup, nm">Gallup, NM</option>
-        <option value="flagstaff, az">Flagstaff, AZ</option>
-        <option value="winona, az">Winona</option>
-        <option value="kingman, az">Kingman</option>
-        <option value="barstow, ca">Barstow</option>
-        <option value="san bernardino, ca">San Bernardino</option>
-        <option value="los angeles, ca">Los Angeles</option>
-      </select>
-    </div> -->
     <div class="container">
+      <div class="nav-bar">
+        <i class="fas fa-caret-left"></i>
+        <div class="title">Ride</div>
+        <div class="account"></div>
+      </div>
       <div id="map"></div>
       <div class="option-table">
         <div class="input-container">
@@ -73,11 +47,7 @@
           <div class="book-btn">Book</div>
         </div>
 
-        <div class="history">
-          <div class="place-item"></div>
-          <div class="place-item"></div>
-          <div class="place-item"></div>
-        </div>
+        <div class="history"></div>
         <!-- <button id="button">button</button> -->
       </div>
     </div>
