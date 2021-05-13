@@ -1,131 +1,215 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
-const initializePassport = require("./passport-config");
-const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
-const methodOverride = require("method-override");
-const userRoute = require("./routes/user.route");
+const customerRoute = require("./routes/customer.route");
 const engine = require("ejs-mate");
-var expressLayouts = require("express-ejs-layouts");
+const driverRoute = require("./routes/driver.route");
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+const fetch = require("node-fetch");
+const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
+const mssql = require("mssql");
+const config = require("./sqlConfig");
+const axios = require("axios");
+const URL = require("url");
 
-let users = [
-  {
-    id: "1615631885703",
-    name: "Guest",
-    email: "guest@gmail.com",
-    password: "123456",
-  },
-];
-
-let panel = {
-  optionPanel: false,
-  historyPanel: true,
-};
-
-const getUserByEmail = (email) => users.find((user) => user.email === email);
-const getUserById = (id) => users.find((user) => user.id === id);
-
-initializePassport(passport, getUserByEmail, getUserById);
+let customersOnline = [];
+let driversOnline = [];
+let rooms = new Map();
+let driveRooms = new Map();
 
 app.engine("ejs", engine);
 app.set("views", "./views");
 app.set("view-engine", "ejs");
 
-// app.use(expressLayouts);
+const setSocketByCookie = (userId, array, socket) => {
+  const result = array.find((driver) => {
+    return driver.userId == userId;
+  });
+
+  if (!result) {
+    array.push({
+      userId: userId,
+      // socketId: socket.id
+    });
+    socket.userId = userId;
+    // socket.join(socket.id);
+    socket.emit("SET_ID", socket.userId);
+  } else {
+    socket.userId = result.userId;
+    // socket.id = result.socketId;
+    // socket.join(socket.id);
+    socket.emit("SET_ID", socket.userId);
+  }
+};
+
+io.on("connection", async (socket) => {
+  // socket.leave(socket.id);
+  var cookief = socket.request.headers.cookie;
+  var cookies = cookie.parse(cookief);
+  let userId;
+
+  if (cookies.token) {
+    jwt.verify(cookies.token, "tx", (error, decoded) => {
+      if (error) {
+        return;
+      } else {
+        userId = decoded.id;
+        setSocketByCookie(userId, driversOnline, socket);
+      }
+    });
+
+    jwt.verify(cookies.token, "kh", (error, decoded) => {
+      if (error) {
+        return;
+      } else {
+        userId = decoded.id;
+        setSocketByCookie(userId, customersOnline, socket);
+      }
+    });
+  }
+  // console.log(driversOnline);
+  console.log(socket.adapter.rooms);
+  console.log(socket.id + " is online");
+  console.log(socket.userId + " is online");
+  // console.log(socket);
+
+  // var room = socket.adapter.rooms.get(socket.id).size;
+  console.log("DANH SACH PHONG", rooms);
+  // console.log(room.size);
+
+  // socket.on("connect_error", () => {
+  //   console.log("There is error");
+  // });
+
+  socket.on("UPDATE_LIST", () => {
+    socket.broadcast.emit("RENDER_LIST");
+  });
+
+  socket.on("DRIVER_IS_WATCHING", (driveId) => {
+    if (rooms.get(driveId) === undefined) {
+      io.to(socket.id).emit("DRIVE_NO_LONGER_EXIST");
+      return;
+    }
+    let { drivers, customer, detail } = rooms.get(driveId);
+    drivers = drivers.add(socket.id);
+    rooms.set(driveId, { drivers, customer, detail });
+    console.log("DANH SACH PHONG", rooms);
+  });
+
+  socket.on("DRIVER_IS_NOT_WATCHING", (driveId) => {
+    console.log("driver is not watching");
+    if (rooms.get(driveId) === undefined) {
+      io.to(socket.id).emit("DRIVE_NO_LONGER_EXIST");
+      return;
+    }
+    let { drivers, customer, detail } = rooms.get(driveId);
+    drivers = drivers.delete(socket.id);
+    rooms.set(driveId, { drivers, customer, detail });
+    console.log("DANH SACH PHONG", rooms);
+  });
+
+  socket.on("SEARCH_FOR_DRIVER", (driveId) => {
+    axios
+      .get(`http://localhost:3001/list/${driveId}`)
+      .then((res) => res.data)
+      .then((data) => {
+        rooms.set(driveId, {
+          drivers: new Set(),
+          customer: socket.id,
+          detail: data,
+        });
+      })
+      .catch((err) => console.log(err));
+  });
+
+  socket.on("STOP_SEARCH", (driveId) => {
+    if (rooms.get(driveId) === undefined) {
+      socket.emit("DRIVE_NO_LONGER_EXIST");
+      return;
+    }
+
+    axios.delete(`http://localhost:3001/list/${driveId}`);
+    let { drivers, customer, detail } = rooms.get(driveId);
+    for (const value of drivers) {
+      drivers.delete(value);
+      io.to(value).emit("DRIVE_NO_LONGER_EXIST");
+    }
+    rooms.set(driveId, { drivers, customer, detail });
+  });
+
+  socket.on("FINISH", (driveId) => {
+    if (rooms.get(driveId) === undefined) {
+      socket.emit("DRIVE_NO_LONGER_EXIST");
+      return;
+    }
+
+    let { drivers, customer, detail } = rooms.get(driveId);
+    detail.MATX = socket.userId;
+    axios
+      .post(`http://localhost:3001/drives/`, detail)
+      .catch((err) => console.error(err));
+
+    axios
+      .delete(`http://localhost:3001/list/${driveId}`)
+      .catch((err) => console.error(err));
+  });
+
+  socket.on("DRIVER_HAS_CHOSEN", (data) => {
+    const { driveId, driverId, driverLocation } = data;
+    if (rooms.get(driveId) === undefined) {
+      socket.emit("DRIVE_NO_LONGER_EXIST");
+      return;
+    }
+
+    let { drivers, customer, detail } = rooms.get(driveId);
+    for (const value of drivers) {
+      if (value !== socket.id) {
+        drivers.delete(value);
+        io.to(value).emit("DRIVE_NO_LONGER_EXIST");
+      } else {
+        // console.log(socket.userId);
+        detail.MATX = socket.userId;
+        rooms.set(driveId, { drivers, customer, detail });
+        // console.log(value);
+        socket.to(customer).emit("DRIVER_ON_THE_WAY", data);
+        console.log(rooms);
+      }
+    }
+
+    // detail.MATX = driveId;
+    // socket.join(driveId);
+    // console.log(socket.adapter.rooms);
+    // console.log(rooms.get(driveId).drivers[0]);
+    // socket.to(rooms.get(driveId).drivers[0]).emit("DRIVER_ON_THE_WAY", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(socket.userId + " is leaving");
+    for (let [key, value] of rooms) {
+      let { drivers, customer, detail } = value;
+      drivers.delete(socket.id);
+      rooms.set(key, { drivers, customer, detail });
+    }
+  });
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
 
-app.use(flash());
-app.use(
-  session({
-    secret: "Phat",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use("/driver", driverRoute);
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(methodOverride("_method"));
+app.use("/customer", customerRoute);
 
-app.get("/", (req, res) => {
-  const { origin, destination } = req.query;
-  res.render("index.ejs", {
-    origin: origin,
-    destination: destination,
+app.get("*", function (req, res) {
+  res.render("NotFound.ejs", {
+    title: "Not Found",
   });
 });
 
-// app.post("/directions", (req, res) => {
-//   const { origin, dest } = req.body;
-//   console.log(origin, dest);
-//   return res.render("index.ejs", {
-//     origin: origin,
-//     destination: dest,
-//   });
-// });
-
-app.get("/register", checkNotAuthenticated, (req, res) => {
-  res.render("register.ejs");
-});
-
-app.get("/login", checkNotAuthenticated, (req, res) => {
-  res.render("login.ejs");
-});
-
-app.post(
-  "/login",
-  checkNotAuthenticated,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-
-app.post("/register", checkNotAuthenticated, (req, res) => {
-  const { name, email, password } = req.body;
-  users.push({
-    id: Date.now().toString(),
-    name: name,
-    email: email,
-    password: password,
-  });
-  console.log(users);
-  res.redirect("/");
-});
-
-app.delete("/logout", (req, res) => {
-  req.logOut();
-  res.redirect("/login");
-});
-
-app.use("/users", userRoute);
-
-app.get("/search", (req, res) => {
-  res.render("search.ejs");
-});
-
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect("/");
-  }
-  next();
-}
-
-app.listen(process.env.PORT || port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+server.listen(process.env.PORT || port);
+console.log(`Example app listening at http://localhost:${port}`);

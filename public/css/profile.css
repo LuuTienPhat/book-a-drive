@@ -1,0 +1,111 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+
+  background-image: url(/image/road6.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: whitesmoke;
+  z-index: 0;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+  padding: 10px 0 0 10px;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+}
+
+.message {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+}
+
+form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  z-index: 2;
+}
+
+.input-container {
+  width: 100%;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 0 20px 0;
+}
+
+.input {
+  margin: 10px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+select,
+input[type="text"],
+input[type="password"] {
+  height: 40px;
+  width: 100%;
+  margin: 0 10px 0 0;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 10px;
+  font-size: 12px;
+  background-color: transparent;
+  color: whitesmoke;
+}
+option {
+  color: black;
+}
+
+label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+button {
+  width: 50%;
+  margin: 10px 0 0 0;
+  height: 40px;
+  border: 2px solid whitesmoke;
+  outline: none;
+  border-radius: 5px;
+  background: transparent;
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+a {
+  margin: 40px 0 0 0;
+  color: whitesmoke;
+  font-size: 16px;
+}

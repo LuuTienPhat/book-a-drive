@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <%- include("./partials/head.ejs") %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/js/OverlayScrollbars.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.1/css/OverlayScrollbars.min.css">
+    <title><%=title %></title>
+    <style>
+      .swiper-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 14px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body class="vh-100">
+    <%- include("./partials/loading") %>
+    <%- include("./partials/driverHeader") %>
+    <div class="container-fluid">
+      <div class="row">
+        <div
+          class="swiper-container mySwiper p-2"
+          id="mySwiper"
+          style="height: 100px"
+        >
+          <div class="swiper-wrapper " id="swiper-wrapper"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col" id="money-panel">
+          
+        </div>
+      </div>
+      <div class="row" style="overflow-y: scroll">
+        <div class="col" id="history-panel">
+          <!-- <div
+            class="d-flex justify-content-center align-items-center py-2 px-2 border border-2 border-success rounded"
+            id="place-item"
+            data-address="${each.DIEMDEN}"
+          >
+            <div class="px-2 overflow-hidden w-100">
+              <h5 class="text-truncate">Chợ bà Chiểu</h5>
+              <div class="d-flex justify-content-start align-items-center">
+                <p
+                  class="text-truncate text-secondary my-0"
+                  style="font-size: 14px"
+                >
+                  <i class="bi bi-align-center"></i>
+                  30km
+                </p>
+                <p
+                  class="text-truncate text-secondary mx-1 my-0"
+                  style="font-size: 14px"
+                >
+                  <i class="bi bi-clock-fill"></i>
+                  12:00:12
+                </p>
+                <p
+                  class="text-truncate text-secondary mx-1 my-0"
+                  style="font-size: 14px"
+                >
+                  <i class="bi bi-wallet-fill"></i>
+                  10.000
+                </p>
+              </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center">
+              <div class="text-secondary" style="font-size: 14px">
+                <i class="bi bi-cash"></i> VND
+              </div>
+              <h4 class="my-0 text-success">3.000.000</h4>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <%- include("./partials/script") %>
+    <script>
+      const swiper = new Swiper(".mySwiper", {
+        initialSlide: 15,
+        slidesPerView: 6,
+        spaceBetween: 5,
+        slidesPerGroup: 3,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
+    <script src="/js/driverHistory.js"></script>
+  </body>
+</html>

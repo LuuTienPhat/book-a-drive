@@ -1,0 +1,54 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a href="/customer">
+          <button class="btn btn-light">
+            <i class="bi bi-house-fill"></i>
+          </button>
+      </a>
+    
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          class="btn btn-info "
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#information-modal"
+        >
+          <i class="bi bi-person-circle"></i>
+          <%=data.HOKH%> <%=data.TENKH%>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div
+    class="modal fade"
+    id="information-modal"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            <small class="text-muted" style="font-size: 14px">Khách hàng:</small>
+            <%=data.HOKH%> <%=data.TENKH%>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <a href="/customer/profile">
+            <div class="btn btn-large btn-primary w-100">
+              Thông tin tài khoản <i class="bi bi-info-circle"></i>
+            </div>
+          </a>
+          <a href="/customer/logout">
+            <div class="btn btn-large btn-danger w-100 mt-2">
+              Đăng xuất <i class="bi bi-door-open"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,10 +1,20 @@
 <div class="nav-bar">
   <i class="fas fa-caret-left fa-fw" onclick="goBack()"></i>
-  <div class="title">Ride</div>
+  <div class="title">Account</div>
   <div class="account"></div>
-  <div class="overlay-menu">
-    <div>Chi tiết tài khoản</div>
-    <div>Đăng xuất</div>
+  <div class="dropdown hide">
+    <a href="/customer/profile">Chi tiết tài khoản</a>
+    <a href="/customer/logout" id="logout">Đăng xuất</a>
   </div>
 </div>
+
+<script>
+  const dropdown= document.querySelector(".dropdown");
+  const account = document.querySelector(".account");
+  const logOut = document.querySelector("#logout");
+  
+  account.addEventListener('click', () => {
+    dropdown.classList.toggle("hide")
+  })
+</script>
 

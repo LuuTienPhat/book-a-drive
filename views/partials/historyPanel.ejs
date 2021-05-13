@@ -1,5 +1,28 @@
 <div class="input-container">
-  <i class="fas fa-map-marker-alt"></i>
-  <div>Where To?</div>
+    <i class="fas fa-map-marker-alt"></i>
+    <div>Where To?</div>
 </div>
-<div class="history"></div>
+<div class="history">
+    <% if(histories) { %>
+    <% for(let history of histories) { %>
+
+    <div class="place-item" data-address="<%=history.DIADIEM %>">
+        <i class="fas fa-map-marker-alt"></i>
+        <div style="margin-left: 20px">
+            <h4><%=history.DIADIEM %></h4>
+            <div style="color: grey; margin-top: 2px">
+                <%=history.DIADIEM %>
+            </div>
+        </div>
+    </div>
+
+    <% } %>
+    <% } %>
+</div>
+
+<script>
+    const input = document.querySelector(".input-container");
+    input.addEventListener("click", async () => {
+        window.location.href = "customer/search";
+    });
+</script>

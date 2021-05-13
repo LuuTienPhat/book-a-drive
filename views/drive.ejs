@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Tài xế</title>
+    <link rel="stylesheet" type="text/css" href="/css/map.css" />
+  </head>
+  <body>
+    <%- include('./partials/loading') %>
+    <%- include('./partials/driverHeader') %> 
+    <%- include('./partials/map') %>
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table mt-2">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td ><b>Mã chuyến</b></td>
+                  <td id="driveId"><%=driveId%></td>
+                </tr>
+                <tr>
+                  <td ><b>Điểm đón</b></td>
+                  <td id="origin"><%=origin%></td>
+                </tr>
+                <tr>
+                  <td ><b>Điểm đến</b></td>
+                  <td id="destination"><%=destination%></td>
+                </tr>
+                <tr>
+                  <td ><b>Quãng đường</b></td>
+                  <td id="distance"><%=distance %></td>
+                </tr>
+                <tr>
+                  <td><b>Giá tiền</b></td>
+                  <td id="money"><%=money %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-dark bg-dark py-2">
+      <div
+        class="w-100 d-flex flex-row justify-content-between align-items-center"
+      >
+        <button
+          class="btn btn-primary w-100 mx-2"
+          id="btn-choose"
+          type="button"
+        >
+          ĐỒNG Ý NHẬN CUỐC XE
+        </button>
+        <button
+          class="btn btn-success w-100 mx-2 d-none"
+          id="btn-pick-up"
+          type="button"
+        >
+          ĐÓN KHÁCH
+        </button>
+        <button
+          class="btn btn-danger w-100 mx-2 d-none"
+          id="btn-not-choose"
+          type="button"
+        >
+          HUỶ
+        </button>
+        <button
+          class="btn btn-warning w-100 mx-2 d-none"
+          id="btn-finish"
+          type="button"
+        >
+          KHÁCH XUỐNG XE
+        </button>
+      </div>
+    </nav>
+
+    <div
+      id="error-modal"
+      class="modal animate__animated animate__headShake "
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">
+              Lỗi
+            </h4>
+          </div>
+          <div class="modal-body text-center d-flex flex-column">
+            <i
+              class="bi bi-exclamation-circle-fill text-danger"
+              style="font-size: 30px"
+            ></i>
+            <span class="py-2" style="font-size: 20px"
+              >Cuốc xe không tồn tại hoặc <br>khách hàng huỷ chuyến</span
+            >
+          </div>
+          <div class="modal-footer">
+            <a href="/driver">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="cancel-search"
+              >
+              Quay lại trang tài xế
+              </button>
+            </a>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include("./partials/script") %> 
+  </body>
+  <script>
+    const errorModal = new bootstrap.Modal(
+        document.getElementById("error-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+  </script>
+    <script src="/js/drive.js"></script>
+</html>

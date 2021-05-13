@@ -1,0 +1,27 @@
+<div
+      class="bg-light vw-100 vh-100 d-flex flex-column justify-content-center align-items-center"
+      id="loading"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000000;
+      "
+    >
+      <div class="spinner-grow text-success"role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden" ></span>
+        
+      </div>
+      <h1 class="text-success mt-2">
+        BOOK-A-BIKE
+      </h1>
+    </div>
+    <script>
+      const loading = document.getElementById("loading");
+      window.addEventListener('load', () => {
+        loading.classList.add("animate__animated","animate__fadeOut");
+        setTimeout(() => {
+            loading.classList.add("d-none");
+        },1000)
+    })
+    </script>

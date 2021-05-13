@@ -1,34 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <%- include("./partials/head") %>
+    <title><%=title %></title>
+    <!-- <link rel="stylesheet" type="text/css" href="/css/index.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/css/login.css" /> -->
   </head>
   <body>
-    <div class="container">
-      <div class="form-box">
-        <form action="/login" method="POST">
-          <h1>Login</h1>
-          <div class="message">
-            <% if(messages.error) { %> <%= messages.error %> <% } %>
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" required />
-          </div>
-          <div>
-            <label for="password">Password</label>
-            <input type="text" name="password" id="password" required />
+    <%- include("./partials/loading") %>
+    <div
+      class="container-fluid px-5 text-white"
+      style="
+        background-image: url(/image/road6.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      "
+    >
+      <div class="row vh-100">
+        <div
+          class="col-12 d-flex flex-column justify-content-center align-items-center"
+        >
+          <form
+            id="form"
+            class="needs-validation rounded py-5 px-3 shadow-lg"
+            action="<%=action %>"
+            method="POST"
+            novalidate
+            autocomplete="off"
+            style="max-width: 350px"
+          >
+            <h2 class="text-white text-center mb-5"><%= title %></h2>
+            <div class="mb-4">
+              <label for="username" class="form-label">Tên đăng nhập</label>
+              <div class="input-group has-validation">
+                <span
+                  class="input-group-text bg-transparent text-white"
+                  id="inputGroupPrepend"
+                >
+                  <i class="bi bi-person-circle"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control bg-transparent border border-3 text-white"
+                  name="username"
+                  id="username"
+                  aria-describedby="inputGroupPrepend"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Tên đăng nhập không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="password" class="form-label">Mật khẩu</label>
+              <div class="input-group has-validation">
+                <span
+                  class="input-group-text bg-transparent text-white"
+                  id="inputGroupPrepend"
+                >
+                  <i class="bi bi-key-fill"></i>
+                </span>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control bg-transparent border border-3 text-white d-block"
+                  id="password"
+                  aria-describedby="passwordHelpBlock"
+                  required
+                />
+                <div class="invalid-feedback form-text">
+                  Mật khẩu không được để trống
+                </div>
+                <small id="passwordHelpBlock" class="text-muted mt-2">
+                  Mật khẩu phải dài trên 5 ký tự, chứa ít nhất 1 chữ số và một
+                  chữ in hoa
+                </small>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button class="btn btn-outline-light" type="submit" id="button">
+                <%=title %>
+              </button>
+            </div>
+
+            <% if (register) { %>
+              <div
+              class="mt-4 text-white d-flex justify-content-between align-items-center"
+            >
+              <a
+                class="fst-italic text-danger text-decoration-none"
+                href="/customer/forgot-password"
+                >Quên mật khẩu?</a
+              >
+              <a
+                class="text-success text-decoration-none"
+                href="<%=register %>"
+                >Đăng ký</a
+              >
+            <% } %>
+            </div>
+          </form>
+
+          <div
+            class="modal animate__animated animate__headShake px-3 text-dark"
+            id="modal"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="staticBackdropLabel">Lỗi</h3>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body text-center d-flex flex-column">
+                  <i
+                    class="bi bi-exclamation-circle-fill text-danger"
+                    style="font-size: 40px"
+                  ></i>
+                  <span class="py-2" style="font-size: 20px"
+                    >Sai tên đăng nhập hoặc mật khẩu</span
+                  >
+                </div>
+              </div>
+            </div>
           </div>
 
-          <button type="submit">Login</button>
-          <a href="/register">Dont have an account? Register now</a>
-        </form>
+        </div>
       </div>
     </div>
+
+    <%- include("./partials/script") %> 
+    <script>
+      const modal = new bootstrap.Modal(document.getElementById("modal"), {
+        backdrop: "static",
+        keyboard: false,
+      });
+
+      const form = document.getElementById("form");
+      form.addEventListener(
+        "submit",
+        (e) => {
+          e.preventDefault();
+        },
+        true
+      );
+
+      const button = document.getElementById("button");
+      button.addEventListener("click", () => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        if (!username || !password) {
+          return;
+        }
+
+        axios.post(`${form.action}`, {
+          username: username,
+          password: password,
+        }).then((res) => {
+          return res.data;
+        }).then((data) => {
+          if (data.error) {
+            modal.show();
+          } else {
+            window.location.href = data.url;
+          }
+        });
+      });
+
+      (function () {
+        "use strict";
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll(".needs-validation");
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
   </body>
 </html>

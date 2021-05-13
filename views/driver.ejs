@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title><%=title %> </title>
+  </head>
+  <body>
+    <%- include("./partials/loading") %>
+    <%- include("./partials/driverHeader") %>
+    <div class="container-fluid mt-4 mb-5" id="scrollbar-overlay">
+      <div class="row">
+        <div class="col">
+          <h3 class="text-center">Danh sách chờ</h3>
+          <div class="row">
+            <div class="col d-flex justify-content-end">
+              <button class="btn btn-warning" id="btn-refresh">
+                <img src="/icons/arrow-clockwise.svg" /> Làm mới
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="list-group list-group-flush mt-3 h-100 w-100" id="scrollbar-overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div class="container-fluid justify-content-center">
+        <button class="btn btn-large btn-success h-100" type="button" id="btn-connect">
+          <i class="bi bi-broadcast"></i> Kết nối
+        </button>
+      </div>
+    </nav>
+  </body>
+  <%- include("./partials/script") %>
+  <script>
+    const btnConnect = document.querySelector("#btn-connect");
+    const btnRefresh = document.querySelector("#btn-refresh");
+    const informationModal = new bootstrap.Modal(
+      document.getElementById("information-modal")
+      );
+  </script>
+  <script type="module" src="/js/driver.js"></script>
+</html>

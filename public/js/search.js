@@ -106,15 +106,15 @@ const goBack = () => {
 //initialize map and elements
 async function initMap() {
   const currentLocation = await getCurrentLocation();
-  console.log(currentLocation);
+  // console.log(currentLocation);
 
   //initialize map with current location
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 15,
-    center: currentLocation,
-    disableDefaultUI: true,
-  });
-  addMarker(currentLocation);
+  // map = new google.maps.Map(document.getElementById("map"), {
+  //   zoom: 15,
+  //   center: currentLocation,
+  //   disableDefaultUI: true,
+  // });
+  // addMarker(currentLocation);
 
   //initialize direction service and renderer
   // const directionsService = new google.maps.DirectionsService();
@@ -149,49 +149,49 @@ async function initMap() {
     west: currentLocation.lng - 0.1,
   };
 
-  let autocomplete = new google.maps.places.Autocomplete(
-    document.getElementById("origin"),
-    {
-      bounds: defaultBounds,
-      componentRestrictions: { country: "vn" },
-      fields: ["formatted_address", "geometry", "name"],
-      origin: currentLocation,
-      strictBounds: false,
-      types: ["establishment"],
-    }
-  );
+  // let autocomplete = new google.maps.places.Autocomplete(
+  //   document.getElementById("origin"),
+  //   {
+  //     bounds: defaultBounds,
+  //     componentRestrictions: { country: "vn" },
+  //     fields: ["formatted_address", "geometry", "name"],
+  //     origin: currentLocation,
+  //     strictBounds: false,
+  //     types: ["establishment"],
+  //   }
+  // );
 
   const searchResults = document.querySelector(".search-results");
   const origin = document.getElementById("origin");
   const destination = document.getElementById("destination");
 
-  var searchBox = new google.maps.places.SearchBox(origin, {
-    bounds: defaultBounds,
-  });
+  // var searchBox = new google.maps.places.SearchBox(origin, {
+  //   bounds: defaultBounds,
+  // });
 
-  const url = "http://localhost:3000/users/send";
+  // const url = "http://localhost:3000/users/send";
   const data = {
     origin: currentLocation,
     destination: "Chợ Bà Chiểu",
   };
 
-  async function postData(url = "", data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-  }
+  // async function postData(url = "", data = {}) {
+  //   // Default options are marked with *
+  //   const response = await fetch(url, {
+  //     method: "POST", // *GET, POST, PUT, DELETE, etc.
+  //     mode: "cors", // no-cors, *cors, same-origin
+  //     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  //     credentials: "same-origin", // include, *same-origin, omit
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       // 'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     redirect: "follow", // manual, *follow, error
+  //     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+  //     body: JSON.stringify(data), // body data type must match "Content-Type" header
+  //   });
+  //   return response.json(); // parses JSON response into native JavaScript objects
+  // }
 
   // const button = document.getElementById("button");
   // button.addEventListener("click", () => {

@@ -1,4 +1,4 @@
-* {
+/* * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -15,7 +15,7 @@ body {
 
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
-}
+} */
 
 .container {
   height: 100vh;
@@ -28,11 +28,6 @@ body {
   /* border: 1px solid black; */
 }
 
-#map {
-  height: 50%;
-  width: 100%;
-}
-
 .option-table {
   height: 50%;
   width: 100%;
@@ -43,7 +38,7 @@ body {
   align-items: center;
 }
 
-.option-table .input-container {
+.input-container {
   width: 100%;
   display: flex;
   align-items: center;

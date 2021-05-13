@@ -1,30 +1,312 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
   <head>
     <%- include("./partials/head") %>
-    <title></title>
-    <script src="/js/index.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <title><%=title %></title>
+    <!-- <script src="/js/index.js"></script> -->
+    <!-- <link rel="stylesheet" href="/css/header.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/css/style.css" /> -->
+    <link rel="stylesheet" href="/css/map.css" />
+    <style>
+      
+      .gm-ui-hover-effect {
+        display: none !important;
+      }
+    </style>
   </head>
-  <body>
-    <div class="origin" data-origin="<%=origin %>"></div>
-    <div class="destination" data-destination="<%=destination %>"></div>
-    <div class="container">
-      <%- include('./partials/header') %>
-      <div id="map"></div>
-      <div class="option-table">
-        <% if (!origin) { %>
-          <%- include('./partials/historyPanel') %>
-        <% } else {%>
-          <%- include('./partials/pricePanel') %>
-        <% } %>
+
+  <body class="vh-100">
+    <%- include('./partials/loading') %> <%-
+    include('./partials/customerHeader') %> <%- include('./partials/map') %>
+
+    <div class="container-fluid mt-3" style="height: 40vh">
+      <div class="row">
+        <div class="col">
+          <div id="search-bar"
+            class="d-flex bg-secondary py-3 px-3 rounded"
+            data-bs-toggle="modal"
+            data-bs-target="#search-modal"
+          >
+            <div class="border-0 text-light mr-2" id="basic-addon1">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <h4 class="text-light ms-4 mb-0" style="font-size: 20px">
+              Where To?
+            </h4>
+          </div>
+
+          <div id="history-panel"
+            class="mt-2 h-100 w-100 d-flex flex-column justify-content-center"
+          >
+            <% if(histories) { %> <% for(let history of histories) { %>
+
+            <div
+              class="card h-100 border border-warning border-2 mt-1"
+              id="place-item"
+              data-address="<%=history.DIEMDEN %>"
+            >
+              <div class="card-body px-3 py-0 d-flex align-items-center">
+                <i class="bi bi-geo-alt-fill"></i>
+                <div class="ms-4 overflow-hidden w-100">
+                  <h6 class="text-truncate"><%=history.DIEMDEN %></h6>
+                  <p class="my-0 text-truncate text-secondary" style="font-size: 14px">
+                    <%=history.DIEMDEN %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <% } %> <% } %>
+          </div>
+
+          <div class="price-list d-none">
+            <h6 class="" style="font-size: 14px">Phương tiện đề xuất</h6>
+            <div
+              class="mt-2 border border-2 border-success rounded px-3 py-4 d-flex align-items-center justify-content-between"
+              style="font-size: 18px"
+            >
+              <div class="d-flex align-items-center justify-content-center">
+                <img
+                  src="icons/scooter.svg"
+                  class="my-0"
+                  style="height: 1.5rem; width: 1.5rem"
+                />
+                <div class="ms-3">Book-A-Bike</div>
+              </div>
+              <h5 class="price text-end my-0 text-success"></h5>
+            </div>
+            <h6 style="font-size: 14px" class="mb-0 mt-3">
+              Phương thức thanh toán
+            </h6>
+            <div
+              class="mt-2 border border-2 border-secondary rounded p-3 d-flex align-items-center"
+            >
+              <img src="/icons/cash-stack.svg" />
+              <h6 class="my-0 d-inline-block ms-2">Tiền mặt</h6>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-success w-100 mt-3 p-3"
+              data-bs-toggle="modal"
+              data-bs-target="#search-driver-modal"
+              id="btn-book"
+            >
+              <h4 class="my-0">Đặt xe</h4>
+            </button>
+            <!-- <button id="btn-book">Đặt xe</button> -->
+            <!-- Modal -->
+          </div>
+
+          <div id="driver-panel" class="w-100 d-none">
+            <div class="border border-2 border-success p-3 rounded mb-2">
+              <h4 class="my-0 text-success">Đã tìm thấy tài xế cho bạn ...</h4>
+            </div>
+            <div
+              class="mb-2 bg-light d-flex justify-content-between align-items-center p-3 rounded"
+            >
+              <div class="card-body p-0" id="driver-detail">
+                
+              </div>
+              <i
+                class="bi bi-person-bounding-box text-info"
+                style="font-size: 50px"
+              ></i>
+              <!-- <p class="card-text">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                          </p> -->
+            </div>
+            <div
+              class="d-flex justify-content-end border border-2 border-danger rounded p-2"
+            >
+              <div class="btn btn-danger">Huỷ chuyến</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABQUzWcMn3ud6gI0O8QcX_qxYqp4OT6dc&region=VI&language=vi&callback=initMap&libraries=places&v=weekly"></script>
-    <!-- <script src="./style.js"></script> -->
+    <div
+      id="search-modal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Where To?</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid px-0" style="height: 70vh">
+              <div class="row">
+                <div class="input-group py-2">
+                  <span
+                    class="input-group-text border-0 bg-warning text-white"
+                    id="inputGroup-sizing-default"
+                    ><i class="bi bi-record-circle"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control border-0 border-bottom border-2 border-warning"
+                    id="origin-input"
+                    placeholder="current location"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="input-group py-2">
+                  <span
+                    class="input-group-text border-0 bg-danger text-white"
+                    id="inputGroup-sizing-default"
+                    ><i class="bi bi-geo-alt"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control border-0 border-bottom border-2 border-danger"
+                    id="destination-input"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <div class="" id="search-results"></div>
+
+              <div class="option d-none">
+                <div class="add-option">
+                  <i class="fas fa-home fa-fw"></i>
+                  Add Home
+                </div>
+                <div class="add-option">
+                  <i class="fas fa-briefcase fa-fw"></i>
+                  Add Work
+                </div>
+              </div>
+
+              <div class="saved-place d-none">
+                <i class="far fa-bookmark fa-fw"></i>
+                <div>
+                  <h4>Saved Places</h4>
+                  <p>Get to your favorite places easily</p>
+                </div>
+                <i class="fas fa-chevron-right fa-fw"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="search-driver-modal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Đang tìm xài xế cho bạn...
+            </h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body text-center">
+            <div
+              class="spinner-grow text-info"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+            <div
+              class="spinner-grow text-success"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+            <div
+              class="spinner-grow text-warning"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+            <div
+              class="spinner-grow text-danger"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+            <div
+              class="spinner-grow text-primary"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+            <div
+              class="spinner-grow"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="sr-only"></span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              id="cancel-search"
+            >
+              Huỷ Tìm Kiếm
+            </button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include("./partials/script") %>
+    <script>
+      const pricePanel = document.querySelector(".price-list");
+      const inputContainer = document.querySelector(".input-container");
+      const historyPanel = document.querySelector("#history-panel");
+      const searchBar = document.querySelector("#search-bar");
+      const driverPanel = document.querySelector("#driver-panel");
+      const driverDetail = document.querySelector("#driver-detail");
+      const cancelSearch = document.querySelector("#cancel-search");
+      const searchModal = new bootstrap.Modal(
+        document.getElementById("search-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+      const searchDriverModal = new bootstrap.Modal(
+        document.getElementById("search-driver-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+    </script>
+    <script src="/js/pricePanel.js"></script>
   </body>
 </html>

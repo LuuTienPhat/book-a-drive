@@ -5,9 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px;
   background-color: gray;
   position: relative;
+  z-index: 10;
 }
 
 .nav-bar i {
@@ -25,18 +26,29 @@
   width: 25px;
   background: whitesmoke;
   border-radius: 50%;
-}
-
-.overlay-menu {
-  height: 100px;
-  width: 200px;
-  position: absolute;
-  top: 120px;
-  right: 0;
   z-index: 10;
-  background-color: white;
 }
 
 .hide {
-  /* display: none; */
+  display: none;
+}
+
+.dropdown {
+  /* display: block; */
+  width: 160px;
+  right: 0;
+  top: 50px;
+  position: absolute;
+  background-color: whitesmoke;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 2;
+  margin: 0 10px 0 0;
+  border-radius: 10px;
+}
+
+a {
+  text-decoration: none;
+  text-transform: none;
+  color: black;
 }

@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("./partials/head") %>
+    <title></title>
+    <script src="/js/index.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="/css/profile.css" />
+  </head>
+    <%- inlcude("./partials/header.ejs") %>
+    <div class="container">
+      <!-- <div class="form-box"> -->
+      <form action="/edit" method="POST">
+        <h1>Account</h1>
+        <div class="message">
+          <!-- <% if(messages.error) { %> <%= messages.error %> <% } %> -->
+        </div>
+        <div>Driver Information</div>
+      </form>
+      <table>
+        <tr>
+          <td>
+            <div class="input-container">
+              <label for="text">First Name</label>
+              <div class="input">
+                <input type="text" name="firstname" id="firstname" disabled />
+                <i class="far fa-edit fa-fw"></i>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="input-container">
+              <label for="text">Last Name</label>
+              <div class="input">
+                <input type="text" name="lastname" id="lastname" disabled />
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="input-container">
+              <label for="text">Phone</label>
+              <div class="input">
+                <input type="text" name="phone" id="phone" disabled />
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-container">
+              <label for="text">Gender</label>
+              <div class="input">
+                <select name="" id="">
+                  <option></option>
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="input-container">
+              <label for="birthday">Birthday</label>
+              <div class="input">
+                <input type="text" name="phone" id="phone" disabled />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <p>Account Information</p>
+      <table>
+        <tr>
+          <td>
+            <div class="input-container">
+              <label for="email">Email</label>
+              <div class="input">
+                <input type="text" name="email" id="email" disabled />
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="input-container">
+              <label for="password">Password</label>
+              <div class="input">
+                <input type="password" name="password" id="password" disabled />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <button type="submit">Change</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include("./partials/loading") %> <%- include("./partials/driverHeader")
+    %>
+    <div class="container-fluid mt-3">
+      <div class="row mb-3">
+        <div class="col-12">
+          <div
+            class="border border-2 border-info p-3 d-flex rounded align-items-center"
+          >
+            <i class="bi bi-wallet" style="font-size: 30px"></i>
+
+            <div
+              class="d-flex flex-column align-items-start justify-content-center ms-3"
+            >
+              <p class="my-0">Ví tiền</p>
+              <h4 class="my-0">200.000 đ</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary me-3" data-bs-toggle="modal"
+            data-bs-target="#money-modal" style="width: 100px">
+              Nạp tiền
+            </button>
+            <button class="btn btn-warning" style="width: 100px">
+              Rút tiền
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <h4>Lịch sử giao dịch</h4>
+        <div class="col-12">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#home"
+                type="button"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+              >
+                Rút tiền
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="profile-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#profile"
+                type="button"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="false"
+              >
+                Nạp tiền
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="home"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+            >
+              ...
+            </div>
+            <div
+              class="tab-pane fade"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+        class="modal fade px-3"
+        id="money-modal"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="staticBackdropLabel">Nạp tiền vào ví</h3>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body d-flex flex-column ">
+                  <div class="mb-3">
+                    <label for="account-number" class="form-label">Số tài khoản của bạn</label>
+                    <div class="input-group has-validation">
+                      <span
+                        class="input-group-text"
+                        id="inputGroupPrepend"
+                      >
+                        <i class="bi bi-person-circle"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control border border-3"
+                        name="account-number"
+                        id="account-number"
+                        aria-describedby="inputGroupPrepend"
+                        required
+                      />
+                      <div class="invalid-feedback" id="account-number-warning"></div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="money" class="form-label">Số tiền bạn muốn nạp</label>
+                    <div class="input-group has-validation">
+                      <span
+                        class="input-group-text"
+                        id="inputGroupPrepend"
+                      >
+                        <i class="bi bi-person-circle"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control border border-3"
+                        name="money"
+                        id="money"
+                        aria-describedby="inputGroupPrepend"
+                        required
+                      />
+                      <div class="invalid-feedback" id="money-warning"></div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="bank-name" class="form-label">Ngân hàng của bạn</label>
+                    <div class="input-group has-validation">
+                      <span
+                        class="input-group-text"
+                        id="inputGroupPrepend"
+                      >
+                        <i class="bi bi-person-circle"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control border border-3"
+                        name="bank-name"
+                        id="bank-name"
+                        aria-describedby="inputGroupPrepend"
+                        required
+                      />
+                      <div class="invalid-feedback" id="bank-name-warning"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-success" id="btn-change-username">Đồng ý</button>
+                  <button class="btn btn-danger" data-bs-dismiss="modal">Huỷ</button>
+                </div>
+              </div>
+            </div>
+    </div>
+
+    <%- include("./partials/script") %>
+    <script>
+      const moneyModal = new bootstrap.Modal(
+        document.getElementById("money-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+    </script>
+  </body>
+</html>
