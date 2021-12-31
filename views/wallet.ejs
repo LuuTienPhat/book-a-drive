@@ -1,198 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <%- include("./partials/head") %>
-    <title><%=title %></title>
-  </head>
-  <body>
-    <%- include("./partials/loading") %> <%- include("./partials/driverHeader")
-    %>
-    <div class="container-fluid mt-3">
-      <div class="row mb-3">
-        <div class="col-12">
-          <div
-            class="border border-2 border-info p-3 d-flex rounded align-items-center"
-          >
-            <i class="bi bi-wallet" style="font-size: 30px"></i>
+      <title><%=title %></title>
+    </head>
 
-            <div
-              class="d-flex flex-column align-items-start justify-content-center ms-3"
-            >
-              <p class="my-0">Ví tiền</p>
-              <h4 class="my-0">200.000 đ</h4>
-            </div>
-          </div>
-        </div>
-      </div>
+    <body>
+      <%- include("./partials/loading") %>
+        <%-include("./partials/driverHeader")%>
+          <%- include("./partials/driverCheckDrive") %>
+            <div class="container-fluid mt-3">
 
-      <div class="row mb-3">
-        <div class="col-12">
-          <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-primary me-3" data-bs-toggle="modal"
-            data-bs-target="#money-modal" style="width: 100px">
-              Nạp tiền
-            </button>
-            <button class="btn btn-warning" style="width: 100px">
-              Rút tiền
-            </button>
-          </div>
-        </div>
-      </div>
+              <!-- HIỂN THỊ SỐ TIỀN TRONG VÍ -->
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="
+              border border-2 border-info
+              p-3
+              d-flex
+              rounded
+              align-items-center
+            ">
+                    <i class="bi bi-wallet" style="font-size: 30px"></i>
 
-      <div class="row mb-3">
-        <h4>Lịch sử giao dịch</h4>
-        <div class="col-12">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button
-                class="nav-link active"
-                id="home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#home"
-                type="button"
-                role="tab"
-                aria-controls="home"
-                aria-selected="true"
-              >
-                Rút tiền
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button
-                class="nav-link"
-                id="profile-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#profile"
-                type="button"
-                role="tab"
-                aria-controls="profile"
-                aria-selected="false"
-              >
-                Nạp tiền
-              </button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div
-              class="tab-pane fade show active"
-              id="home"
-              role="tabpanel"
-              aria-labelledby="home-tab"
-            >
-              ...
-            </div>
-            <div
-              class="tab-pane fade"
-              id="profile"
-              role="tabpanel"
-              aria-labelledby="profile-tab"
-            >
-              ...
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-        class="modal fade px-3"
-        id="money-modal"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h3 class="modal-title" id="staticBackdropLabel">Nạp tiền vào ví</h3>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body d-flex flex-column ">
-                  <div class="mb-3">
-                    <label for="account-number" class="form-label">Số tài khoản của bạn</label>
-                    <div class="input-group has-validation">
-                      <span
-                        class="input-group-text"
-                        id="inputGroupPrepend"
-                      >
-                        <i class="bi bi-person-circle"></i>
-                      </span>
-                      <input
-                        type="text"
-                        class="form-control border border-3"
-                        name="account-number"
-                        id="account-number"
-                        aria-describedby="inputGroupPrepend"
-                        required
-                      />
-                      <div class="invalid-feedback" id="account-number-warning"></div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="money" class="form-label">Số tiền bạn muốn nạp</label>
-                    <div class="input-group has-validation">
-                      <span
-                        class="input-group-text"
-                        id="inputGroupPrepend"
-                      >
-                        <i class="bi bi-person-circle"></i>
-                      </span>
-                      <input
-                        type="text"
-                        class="form-control border border-3"
-                        name="money"
-                        id="money"
-                        aria-describedby="inputGroupPrepend"
-                        required
-                      />
-                      <div class="invalid-feedback" id="money-warning"></div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="bank-name" class="form-label">Ngân hàng của bạn</label>
-                    <div class="input-group has-validation">
-                      <span
-                        class="input-group-text"
-                        id="inputGroupPrepend"
-                      >
-                        <i class="bi bi-person-circle"></i>
-                      </span>
-                      <input
-                        type="text"
-                        class="form-control border border-3"
-                        name="bank-name"
-                        id="bank-name"
-                        aria-describedby="inputGroupPrepend"
-                        required
-                      />
-                      <div class="invalid-feedback" id="bank-name-warning"></div>
+                    <div class="
+                d-flex
+                flex-column
+                align-items-start
+                justify-content-center
+                ms-3
+              ">
+                      <p class="my-0">Ví tiền mặt</p>
+                      <h4 class="my-0" id="moneyInWallet"><%=vietnamMoneyFormat(balance)%></h4>
                     </div>
                   </div>
                 </div>
-                <div class="modal-footer">
-                  <button class="btn btn-success" id="btn-change-username">Đồng ý</button>
-                  <button class="btn btn-danger" data-bs-dismiss="modal">Huỷ</button>
+              </div>
+
+              <!-- CÁC NÚT CHỨC NĂNG NẠP TIỀN VÀ CHUYỂN TIỀN -->
+              <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-center align-items-center">
+                  <button class="btn btn-primary me-3 col-4" data-bs-toggle="modal" data-bs-target="#recharge-modal">Nạp tiền</button>
+                  <button class="btn btn-warning col-4" data-bs-toggle="modal" data-bs-target="#money-modal">
+                    Chuyển tiền
+                  </button>
+                </div>
+              </div>
+
+              <!-- CHỌN NGÀY GẦN ĐÂY -->
+              <div class="row mb-3">
+                <h4>Lịch sử giao dịch</h4>
+                <div id="mySwiper" class="swiper-container mySwiper p-2" style="height: 100px">
+                  <div class="swiper-wrapper" id="swiper-wrapper"></div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                </div>
+              </div>
+
+              <!-- CHỌN LOẠI GIAO DỊCH -->
+              <div class="row mb-3">
+                <div class="col-12" style="overflow-y: scroll">
+                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="discount-tab" data-bs-toggle="tab" data-bs-target="#discount-pane" type="button" role="tab" aria-controls="discount" aria-selected="true">
+                        Chiết khấu
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="withdrawal-tab" data-bs-toggle="tab" data-bs-target="#withdrawal-pane" type="button" role="tab" aria-controls="withdrawal" aria-selected="false">
+                        Chuyển tiền
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="recharge-tab" data-bs-toggle="tab" data-bs-target="#recharge-pane" type="button" role="tab" aria-controls="recharge" aria-selected="false">
+                        Nạp tiền
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="discount-pane" role="tabpanel" aria-labelledby="discount-tab"></div>
+                    <div class="tab-pane fade" id="recharge-pane" role="tabpanel" aria-labelledby="recharge-tab"></div>
+
+                    <div class="tab-pane fade" id="withdrawal-pane" role="tabpanel" aria-labelledby="withdrawal-tab"></div>
+                  </div>
                 </div>
               </div>
             </div>
-    </div>
 
-    <%- include("./partials/script") %>
-    <script>
-      const moneyModal = new bootstrap.Modal(
-        document.getElementById("money-modal"),
-        {
-          backdrop: "static",
-          keyboard: false,
-        }
-      );
-    </script>
-  </body>
-</html>
+            <!-- MODAL ĐỂ NẠP TIỀN -->
+            <div id="recharge-modal" class="modal fade px-3" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3 class="modal-title" id="staticBackdropLabel">Nạp tiền</h3>
+                  </div>
+                  <div class="modal-body d-flex flex-column">
+                    <div class="mb-3 form-check p-0">
+                      <label for="account-number" class="form-label">Số tài khoản</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-safe-fill"></i>
+                        </span>
+                        <input type="text" class="form-control" name="r-account-number" id="r-account-number" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="r-account-number-warning"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 form-check p-0">
+                      <label for="account-name" class="form-label">Mã PIN</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-key-fill"></i>
+                        </span>
+                        <input type="password" class="form-control" name="pin-number" id="pin-number" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="pin-number-warning"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 form-check p-0">
+                      <label for="money" class="form-label">Số tiền</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-cash"></i>
+                        </span>
+                        <input type="text" class="form-control" name="money" id="r-money" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="r-money-warning"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-success" id="recharge">Nạp tiền</button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal" id="btn-cancel-recharge">Huỷ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MODAL ĐỂ CHUYỂN TIỀN -->
+            <div id="money-modal" class="modal fade px-3" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3 class="modal-title" id="staticBackdropLabel">Chuyển tiền</h3>
+                  </div>
+                  <div class="modal-body d-flex flex-column">
+                    <div class="mb-3 form-check p-0">
+                      <label for="account-number" class="form-label">Số tài khoản</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-safe-fill"></i>
+                        </span>
+                        <input type="text" class="form-control" name="account-number" id="account-number" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="account-number-warning"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 form-check p-0">
+                      <label for="bank-name" class="form-label">Ngân hàng</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-bank2"></i>
+                        </span>
+                        <input type="text" class="form-control" name="bank-name" id="bank-name" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="bank-name-warning"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 form-check p-0">
+                      <label for="account-name" class="form-label">Tên tài khoản</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-person-circle"></i>
+                        </span>
+                        <input type="text" class="form-control" name="account-name" id="account-name" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="account-name-warning"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 form-check p-0">
+                      <label for="money" class="form-label">Số tiền</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">
+                          <i class="bi bi-cash"></i>
+                        </span>
+                        <input type="text" class="form-control" name="money" id="money" aria-describedby="inputGroupPrepend" required="required"/>
+                        <div class="invalid-feedback" id="money-warning"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-success" id="withdraw">Chuyển tiền</button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal" id="btn-cancel-withdraw">Huỷ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%- include("./partials/script") %>
+              <script>
+                const swiper = new Swiper(".mySwiper", {
+                  initialSlide: 60,
+                  slidesPerView: 6,
+                  spaceBetween: 5,
+                  slidesPerGroup: 3,
+                  pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true
+                  },
+                  navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev"
+                  }
+                });
+
+                const moneyModal = new bootstrap.Modal(document.getElementById("money-modal"), {
+                  backdrop: "static",
+                  keyboard: false
+                });
+                const rechargeModal = new bootstrap.Modal(document.getElementById("recharge-modal"), {
+                  backdrop: "static",
+                  keyboard: false
+                });
+              </script>
+              <script src="/js/format.js"></script>
+              <script src="/js/wallet.js"></script>
+            </body>
+
+          </html>
