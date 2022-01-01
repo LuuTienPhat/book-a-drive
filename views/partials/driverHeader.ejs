@@ -1,10 +1,10 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a href="/driver">
-      <button class="btn btn-light" href="#">
-        <i class="bi bi-house-fill"></i>
-      </button>
-    </a>
+        <button class="btn btn-light" href="#">
+          <i class="bi bi-house-fill"></i>
+        </button>
+      </a>
 
       <div class="d-flex justify-content-end">
         <button
@@ -34,6 +34,7 @@
             <small class="text-muted" style="font-size: 14px">Tài xế:</small>
             <%=data.HOTX%> <%=data.TENTX%>
           </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <a href="/driver/profile">
           <div class="modal-body">
@@ -47,8 +48,8 @@
             </div>
           </a>
           <a href="/driver/wallet">
-            <div class="btn btn-large btn-success w-100 mt-2">
-              Ví tiền <i class="bi bi-clock-history ms-2"></i>
+            <div class="btn btn-large btn-warning w-100 mt-2">
+              Ví tiền <i class="bi bi-wallet ms-2"></i>
             </div>
           </a>
           <a href="/driver/logout">
