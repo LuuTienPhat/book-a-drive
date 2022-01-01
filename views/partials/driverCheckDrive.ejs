@@ -1,0 +1,76 @@
+<div
+  id="drive-modal"
+  class="modal animate__animated animate__headShake"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Bạn đang thực hiện cuốc xe</h4>
+      </div>
+      <div class="modal-body text-center d-flex flex-column">
+        <i
+          class="bi bi-exclamation-circle-fill text-danger"
+          style="font-size: 30px"
+        ></i>
+        <p class="py-2 my-0 mb-1"
+          >Bạn đang thực hiện cuốc xe. <br> Vui lòng quay lại trang lái xe.
+        </p>
+        <p class="my-0 text-danger" style="font-size: 18px">Trong 2 phút nếu bạn không quay lại, <br>chúng tôi sẽ huỷ chuyến của bạn</p>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-success" id="btn-drive">
+            Quay lại trang lái xe
+          </button>
+          <button type="button" class="btn btn-danger" id="btn-cancel-drive">
+            Huỷ
+          </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    console.log("run check drive")
+    const driveModal = new bootstrap.Modal(
+    document.getElementById("drive-modal"),
+    {
+      backdrop: "static",
+      keyboard: false,
+    }
+  );
+
+  const btnDrive = document.getElementById("btn-drive");
+  const btnCancelDrive = document.getElementById("btn-cancel-drive");
+
+    const getDriverState = () => {
+        return new Promise(resolve => {
+            socket.emit("DRIVER_SET_STATE", (state, data) => {
+                resolve({state, data});
+            })
+        })
+    }
+
+    window.addEventListener("load", () => {
+        socket.emit("DRIVER_GET_STATE");
+
+        socket.on("DRIVER_SET_STATE", (state, data) => {
+            console.log("run_set_state");
+            console.log(state, data)
+            if(state > 0) {
+                driveModal.show();
+            }
+            
+            btnDrive.addEventListener("click", () => {
+                window.location.href = `http://localhost:3000/driver/drive/${data.MACHUYEN}`;
+            })
+            btnCancelDrive.addEventListener("click", () => {
+                socket.emit("DRIVER_CANCEL_DRIVE", data.MACHUYEN);
+                driveModal.hide();
+            })
+        });
+    });
+   
+</script>
