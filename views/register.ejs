@@ -39,6 +39,7 @@
                   name="lastname"
                   required
                 />
+                <div class="invalid-feedback d-none" id="lastname-warning"></div>
               </div>
               <div class="col-6">
                 <label for="firstname" class="form-label">Tên</label>
@@ -49,6 +50,7 @@
                   name="firstname"
                   required
                 />
+                <div class="invalid-feedback d-none" id="firstname-warning"></div>
               </div>
             </div>
             <div class="row mb-3">
@@ -208,14 +210,13 @@
             </div>
     </div>
     <%- include("./partials/script") %>
-
-    <script src="/js/register.js"></script>
     <script>
       const modal = new bootstrap.Modal(document.getElementById("modal"), {
         backdrop: "static",
         keyboard: false,
       });
     </script>
-    <!-- <script src="/js/register.js"></script> -->
+    <script src="/js/valid.js"></script>
+    <script src="/js/register.js"></script>
   </body>
 </html>
