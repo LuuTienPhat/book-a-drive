@@ -3,15 +3,14 @@
   <head>
     <%- include("./partials/head") %>
     <title><%=title %></title>
-    <!-- <link rel="stylesheet" type="text/css" href="/css/index.css" /> -->
-    <!-- <link rel="stylesheet" type="text/css" href="/css/login.css" /> -->
   </head>
   <body>
     <%- include("./partials/loading") %>
     <div
       class="container-fluid px-5 text-white"
+      <%  %>
       style="
-        background-image: url(/image/road6.jpg);
+        background-image: url(/image/road11.jpg);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -25,7 +24,7 @@
           <form
             id="form"
             class="needs-validation rounded py-5 px-3 shadow-lg"
-            action="<%=action %>"
+            action="/<%=path %>/login"
             method="POST"
             novalidate
             autocomplete="off"
@@ -49,8 +48,7 @@
                   aria-describedby="inputGroupPrepend"
                   required
                 />
-                <div class="invalid-feedback">
-                  Tên đăng nhập không được để trống
+                <div class="invalid-feedback" id="username-warning">
                 </div>
               </div>
             </div>
@@ -71,10 +69,9 @@
                   aria-describedby="passwordHelpBlock"
                   required
                 />
-                <div class="invalid-feedback form-text">
-                  Mật khẩu không được để trống
+                <div class="invalid-feedback form-text" id="password-warning">
                 </div>
-                <small id="passwordHelpBlock" class="text-muted mt-2">
+                <small id="passwordHelpBlock" class="text-white mt-2">
                   Mật khẩu phải dài trên 5 ký tự, chứa ít nhất 1 chữ số và một
                   chữ in hoa
                 </small>
@@ -82,23 +79,27 @@
             </div>
 
             <div class="text-center">
-              <button class="btn btn-outline-light" type="submit" id="button">
+              <button class="btn btn-light" type="submit" id="button">
                 <%=title %>
               </button>
             </div>
 
-            <% if (register) { %>
+            
               <div
               class="mt-4 text-white d-flex justify-content-between align-items-center"
             >
-              <a
-                class="fst-italic text-danger text-decoration-none"
-                href="/customer/forgot-password"
+              <% if (path == "customer" || path == "driver") { %>
+                <a
+                class="fst-italic text-decoration-none btn btn-danger"
+                href="/<%=path%>/forgot-password"
                 >Quên mật khẩu?</a
               >
+              <% } %>
+              
+              <% if (path == "customer") { %>
               <a
-                class="text-success text-decoration-none"
-                href="<%=register %>"
+                class="text-decoration-none btn btn-success"
+                href="/<%=path%>/register"
                 >Đăng ký</a
               >
             <% } %>
@@ -139,34 +140,28 @@
         </div>
       </div>
     </div>
-
     <%- include("./partials/script") %> 
+    <script src="/js/valid.js"></script>
     <script>
       const modal = new bootstrap.Modal(document.getElementById("modal"), {
         backdrop: "static",
         keyboard: false,
       });
 
-      const form = document.getElementById("form");
-      form.addEventListener(
-        "submit",
-        (e) => {
-          e.preventDefault();
-        },
-        true
-      );
+      username.addEventListener("input", checkUsername);
+      // password.addEventListener("input", checkPassword);
 
       const button = document.getElementById("button");
       button.addEventListener("click", () => {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        if (!username || !password) {
-          return;
-        }
+        checkUsername()
+        // checkPassword();
+
+        if (!username.classList.contains("is-valid")) return;
+        // if (!password.classList.contains("is-valid")) return;
 
         axios.post(`${form.action}`, {
-          username: username,
-          password: password,
+          username: username.value,
+          password: password.value,
         }).then((res) => {
           return res.data;
         }).then((data) => {
@@ -178,28 +173,6 @@
         });
       });
 
-      (function () {
-        "use strict";
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll(".needs-validation");
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms).forEach(function (form) {
-          form.addEventListener(
-            "submit",
-            function (event) {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        });
-      })();
-    </script>
+     </script>
   </body>
 </html>
