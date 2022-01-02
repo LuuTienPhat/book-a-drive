@@ -6,7 +6,12 @@
   </head>
   <body>
     <%- include("./partials/loading") %>
-    <%- include("./partials/customerHeader") %>
+    <% if (path == "driver") { %>
+      <%- include("./partials/driverHeader") %>
+      <%- include("./partials/driverCheckDrive") %>  
+    <% } else {%>
+      <%- include("./partials/customerHeader") %>
+    <% } %> 
     <div
       class="container-fluid text-white py-3 d-flex flex-column justify-content-center align-items-center"
       style="
@@ -14,7 +19,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
         min-height: 100vh;
       "
     >
@@ -36,7 +40,7 @@
                   class="form-control bg-transparent border border-3 text-white"
                   id="lastname"
                   name="lastname"
-                  value="<%=data.HOKH%>"
+                  value="<%=path=="driver" ? data.HOTX : data.HOKH%>"
                   required
                   disabled
                 />
@@ -48,7 +52,7 @@
                   class="form-control bg-transparent border border-3 text-white"
                   id="firstname"
                   name="firstname"
-                  value="<%=data.TENKH%>"
+                  value="<%=path=="driver" ? data.TENTX : data.TENKH%>"
                   required
                   disabled
                 />
@@ -70,7 +74,7 @@
                     class="form-control bg-transparent border border-3 text-white"
                     id="birthday"
                     name="birthday"
-                    value="<%=data.NGAYSINH.toLocaleDateString()%>"
+                    value="<%= data.NGAYSINH ? moment(data.NGAYSINH).format('DD/MM/YYYY') : ""%>"
                     required
                     disabled
                   />
@@ -94,7 +98,7 @@
                   >
                   <% var options = [ "", "Nam", "Nữ"]  %>
                     <% for ( var i = 0; i < options.length; i++ ) { %>
-                      <% if(options[i] == data.GIOITINH) { %> 
+                      <% if(removeAccents(options[i]) == removeAccents(data.GIOITINH ? data.GIOITINH.trim() : "")) { %> 
                         <option class="text-dark" value="<%=options[ i ]%>" selected>
                           <%=options[i] %>
                         </option>
@@ -109,7 +113,7 @@
               </div>
             </div>
 
-            <div class="mb-3">
+            <div class="row mb-3">
               <label for="email" class="form-label">Email</label>
               <div class="input-group has-validation">
                 <span
@@ -179,21 +183,135 @@
               </div>
             </div>
 
-            <div class="text-center mb-5 mt-3">
-              <button class="btn btn-warning" id="btn-change-user">
-                Sửa đổi
-              </button>
-              <button class="btn btn-success d-none" id="btn-save-user">
-                Lưu
-              </button>
-              <button class="ms-2 btn btn-danger d-none" id="btn-cancel-user">
-                Huỷ
-              </button>
-            </div>
+            <% if (path=="driver") { %>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <label for="country" class="form-label">Quê quán</label>
+                  <div class="input-group has-validation">
+                    <span
+                      class="input-group-text bg-transparent text-white"
+                      id="inputGroupPrepend"
+                    >
+                      <i class="bi bi-house-fill"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control bg-transparent border border-3 text-white"
+                      name="country"
+                      id="country"
+                      aria-describedby="inputGroupPrepend"
+                      value="<%=data.QUEQUAN%>"
+                      required
+                      disabled
+                    />
+                    <div class="invalid-feedback" id="country-warning"></div>
+                  </div>
+                </div>
+                
+                <div class="col-6">
+                  <label for="join-date" class="form-label">Ngày tham gia</label>
+                  <div class="input-group has-validation">
+                    <span
+                      class="input-group-text bg-transparent text-white"
+                      id="inputGroupPrepend"
+                    >
+                      <i class="bi bi-calendar-event"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control bg-transparent border border-3 text-white"
+                      name="join-date"
+                      id="join-date"
+                      aria-describedby="inputGroupPrepend"
+                      value="<%=moment(data.NGAYTHAMGIA).format("DD/MM/YYYY")%>"
+                      required
+                      disabled
+                    />
+                    <div class="invalid-feedback" id="join-date-warning"></div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            
+            <% if (path != "driver") { %>
+              <div class="text-center">
+                <button class="btn btn-warning" id="btn-change-user">
+                  Sửa đổi
+                </button>
+                <button class="btn btn-success d-none" id="btn-save-user">
+                  Lưu
+                </button>
+                <button class="ms-2 btn btn-danger d-none" id="btn-cancel-user">
+                  Huỷ
+                </button>
+              </div>
+            <% } %>
 
-            <h2 class="text-white text-center mb-3">Thông tin tài khoản</h2>
+            <% if (path == "driver") { %>
+              <div class="row mt-5">
+                <h2 class="text-white text-center mb-3">Thông tin xe</h2>
+                  <div class="col-6 mb-3">
+                    <label for="vehicle-brand" class="form-label">Hãng xe</label>
+                    <input
+                      type="text"
+                      class="form-control bg-transparent border border-3 text-white"
+                      id="vehicle-brand"
+                      name="vehicle-brand"
+                      value="<%=data.HANGXE%>"
+                      required
+                      disabled
+                    />
+                  </div>
+  
+                  <div class="col-6 mb-3">
+                    <label for="vehicle-name" class="form-label">Tên xe</label>
+                    <input
+                      type="text"
+                      class="form-control bg-transparent border border-3 text-white"
+                      id="vehicle-name"
+                      name="vehicle-name"
+                      value="<%=data.TENXE%>"
+                      required
+                      disabled
+                    />
+                  </div>
+                
+                  <div class="col-6">
+                    <label for="license-plate" class="form-label">Biển kiểm soát</label>
+                    <div class="input-group has-validation">
+                      <input
+                        type="text"
+                        class="form-control bg-transparent border border-3 text-white"
+                        id="license-plate"
+                        name="license-plate"
+                        value="<%=data.BIENKIEMSOAT%>"
+                        required
+                        disabled
+                      />
+                      <div class="invalid-feedback" id="license-plate-warning"></div>
+                    </div>
+                  </div>
+  
+                  <div class="col-6">
+                    <label for="vehicle-color" class="form-label">Màu sắc</label>
+                    <div class="input-group has-validation">
+                      <input
+                        type="text"
+                        class="form-control bg-transparent border border-3 text-white"
+                        id="vehicle-color"
+                        name="vehicle-color"
+                        value="<%=data.MAUSAC%>"
+                        required
+                        disabled
+                      />
+                      <div class="invalid-feedback" id="vehicle-color-warning"></div>
+                    </div>
+                  </div>
+              </div>
+            <% } %>
 
-            <div class="mb-3">
+            <div class="row mb-3">
+              <h2 class="text-white text-center mt-5 mb-3">Thông tin tài khoản</h2>
               <label for="username" class="form-label">Tên đăng nhập</label>
               <div class="input-group has-validation">
                 <span
@@ -368,7 +486,15 @@
     </div>
     
     <%- include("./partials/script") %>
+    <% if (path == "driver") { %>
+      <%- include("./partials/driverCheckWallet") %>
+    <% } %>
+
     <script>
+      let path = JSON.parse('<%- JSON.stringify(path) %>');
+      const chooseCheckUserName = () => {
+
+      }
       const usernameModal = new bootstrap.Modal(document.getElementById("username-modal"), {
         backdrop: "static",
         keyboard: false,
@@ -379,7 +505,7 @@
         keyboard: false,
       });
     </script>
-
+    <script src="/js/valid.js"></script>
     <script src="/js/profile.js"></script>
   </body>
 </html>
