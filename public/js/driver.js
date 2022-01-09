@@ -1,5 +1,3 @@
-import { vietnamMoneyFormat, kilometerFormat } from "/js/format.js";
-
 const list = document.getElementsByClassName(
   "list-group list-group-flush mt-3"
 )[0];
@@ -13,10 +11,10 @@ btnConnect.addEventListener("click", () => {
 });
 
 const getList = () => {
-  fetch("http://localhost:3001/list")
-    .then((res) => res.json())
+  axios
+    .get("http://localhost:3001/list")
+    .then((res) => res.data)
     .then((data) => {
-      // console.log("render outside");
       renderList(data);
     });
 };
@@ -33,7 +31,7 @@ const renderList = (data) => {
                 <div class="p-0 d-flex flex-column align-items-center">
                   <i class="bi bi-rulers" style="font-size: 20px"></i>
                   <span class="text-nowrap" style="font-size: 14px">
-                    ${kilometerFormat(3)}
+                    
                   </span>
                 </div>
                 <div class="px-3 overflow-hidden w-100">
