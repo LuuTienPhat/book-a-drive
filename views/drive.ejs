@@ -3,45 +3,105 @@
   <head>
     <%- include("./partials/head") %>
     <title>Tài xế</title>
-    <link rel="stylesheet" type="text/css" href="/css/map.css" />
+    <link rel="stylesheet" href="/css/map.css">
+    <style>
+      
+      .gm-ui-hover-effect {
+        display: none !important;
+      }
+
+      .gm-style-iw.gm-style-iw-c {
+        padding: 0;
+        
+      }
+      .gm-style-iw-d {
+        margin: 10px;
+        font-size: 16px;
+      }
+    </style>
   </head>
   <body>
     <%- include('./partials/loading') %>
-    <%- include('./partials/driverHeader') %> 
-    <%- include('./partials/map') %>
-    
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="table-responsive">
-            <table class="table mt-2">
-              <thead></thead>
-              <tbody>
-                <tr>
-                  <td ><b>Mã chuyến</b></td>
-                  <td id="driveId"><%=driveId%></td>
-                </tr>
-                <tr>
-                  <td ><b>Điểm đón</b></td>
-                  <td id="origin"><%=origin%></td>
-                </tr>
-                <tr>
-                  <td ><b>Điểm đến</b></td>
-                  <td id="destination"><%=destination%></td>
-                </tr>
-                <tr>
-                  <td ><b>Quãng đường</b></td>
-                  <td id="distance"><%=distance %></td>
-                </tr>
-                <tr>
-                  <td><b>Giá tiền</b></td>
-                  <td id="money"><%=money %></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <%- include('./partials/driverHeader')%>
+    <div class="row my-2 mx-1">
+      <div class="col-6">
+        <div
+          class="border border-2 border-success rounded text-center px-1 py-2"
+        >
+          <h5 class="my-0 text-success" >
+            <span class="text-secondary" style="font-size: 12px"
+              >Cước phí:</span
+            >
+            <span id="money"><%= vietnamMoneyFormat(money)%></span>
+          </h5>
         </div>
       </div>
+      <div class="col-6">
+        <div
+          class="border border-2 border-primary rounded text-center py-2"
+        >
+          <h5 class="my-0 text-primary" >
+            <span class="text-secondary" style="font-size: 12px"
+              >Quãng đường:</span
+            >
+            <span id="distance"><%=kilometerFormat(distance) %></span>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <%- include('./partials/map') %> 
+
+    <div class="container-fluid px-1 vw-100 d-flex flex-column justify-content-start mt-2" style="height: 40vh">
+      <!-- <div class="row mb-2 g-2">
+        <div class="col-6">
+          <div
+            class="border border-2 border-warning rounded text-center px-1 py-2"
+          >
+            <h5 class="my-0 text-success" >
+              <span class="text-secondary" style="font-size: 12px"
+                >Khách hàng:</span
+              >
+              <span id="money" class="text-warning"><%= data.TENKHACHHANG %> </span>
+            </h5>
+          </div>
+        </div>
+        <div class="col-6">
+          <div
+            class="border border-2 border-danger rounded text-center py-2"
+          >
+            <h5 class="my-0 text-primary" >
+              <span class="text-secondary" style="font-size: 12px"
+                >SĐT:</span
+              >
+              <span id="distance" class=text-danger><%= data.SDT %></span>
+            </h5>
+          </div>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-12">
+        <div
+          class="col-12 border border-2 border-secondary rounded mb-2 p-2"
+          id="money"
+        >
+          <div class="text secondary" style="font-size: 14px">Điểm đón:</div>
+          <h6 class="my-0 text-dark">
+            <span id="origin"><%=origin%></span>
+          </h6>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+        <div class="border border-2 border-secondary rounded mb-2 p-2">
+          <div class="text secondary" style="font-size: 14px">Điểm đến:</div>
+          <h6 class="my-0 text-dark">
+            <span id="destination"><%=destination%></span>
+          </h6>
+        </div>
+        </div>
+      </div>
+      <div class="d-none" id="driveId"><%=driveId%></div>
     </div>
 
     <nav class="navbar fixed-bottom navbar-dark bg-dark py-2">
@@ -53,35 +113,34 @@
           id="btn-choose"
           type="button"
         >
-          ĐỒNG Ý NHẬN CUỐC XE
+          Đồng ý nhận cuốc xe
+        </button>
+        <button
+          class="btn btn-light w-100 mx-2 d-none"
+          id="btn-is-here"
+          type="button"
+        >
+          Đến nơi
         </button>
         <button
           class="btn btn-success w-100 mx-2 d-none"
           id="btn-pick-up"
           type="button"
         >
-          ĐÓN KHÁCH
-        </button>
-        <button
-          class="btn btn-danger w-100 mx-2 d-none"
-          id="btn-not-choose"
-          type="button"
-        >
-          HUỶ
+          Đón khách
         </button>
         <button
           class="btn btn-warning w-100 mx-2 d-none"
           id="btn-finish"
           type="button"
         >
-          KHÁCH XUỐNG XE
+          Khách xuống xe
         </button>
       </div>
     </nav>
 
-    <div
-      id="error-modal"
-      class="modal animate__animated animate__headShake "
+    <div id="invoice-modal"
+      class="modal animate__animated animate__headShake bg-dark"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -89,27 +148,13 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">
-              Lỗi
-            </h4>
+            <h4 class="modal-title" id="exampleModalLabel">Hoá đơn</h4>
           </div>
-          <div class="modal-body text-center d-flex flex-column">
-            <i
-              class="bi bi-exclamation-circle-fill text-danger"
-              style="font-size: 30px"
-            ></i>
-            <span class="py-2" style="font-size: 20px"
-              >Cuốc xe không tồn tại hoặc <br>khách hàng huỷ chuyến</span
-            >
-          </div>
+          <div class="modal-body text-center d-flex flex-column p-3"></div>
           <div class="modal-footer">
             <a href="/driver">
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="cancel-search"
-              >
-              Quay lại trang tài xế
+              <button type="button" class="btn btn-primary" id="receive-money">
+                Đã nhận tiền
               </button>
             </a>
             <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
@@ -117,16 +162,60 @@
         </div>
       </div>
     </div>
-    <%- include("./partials/script") %> 
+
+    <div id="error-modal"
+      class="modal animate__animated animate__headShake"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Lỗi</h4>
+          </div>
+          <div class="modal-body text-center d-flex flex-column">
+            <i
+              class="bi bi-exclamation-circle-fill text-danger"
+              style="font-size: 30px"
+            ></i>
+            <span class="py-2" style="font-size: 20px"
+              >Cuốc xe không tồn tại hoặc <br />khách hàng huỷ chuyến</span
+            >
+          </div>
+          <div class="modal-footer">
+            <a href="/driver">
+              <button type="button" class="btn btn-primary" id="cancel-search">
+                Quay lại trang tài xế
+              </button>
+            </a>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include("./partials/script") %> <%-
+    include("./partials/driverCheckWallet") %>
   </body>
+  <script src="/js/format.js"></script>
   <script>
     const errorModal = new bootstrap.Modal(
-        document.getElementById("error-modal"),
-        {
-          backdrop: "static",
-          keyboard: false,
-        }
-      );
+      document.getElementById("error-modal"),
+      {
+        backdrop: "static",
+        keyboard: false,
+      }
+    );
+    const invoiceModal = new bootstrap.Modal(
+      document.getElementById("invoice-modal"),
+      {
+        backdrop: "static",
+        keyboard: false,
+      }
+    );
+
+    // invoiceModal.show();
   </script>
-    <script src="/js/drive.js"></script>
+  <script src="/js/drive.js"></script>
 </html>

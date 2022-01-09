@@ -3,11 +3,18 @@
   <head>
     <%- include("./partials/head") %>
     <title><%=title %> </title>
+    <style>
+      #map{
+        height: 200px;
+      }
+    </style>
   </head>
-  <body>
+  <body class="vh-100">
     <%- include("./partials/loading") %>
     <%- include("./partials/driverHeader") %>
-    <div class="container-fluid mt-4 mb-5" id="scrollbar-overlay">
+    <%- include('./partials/map') %>
+    <div class="container-fluid mt-4 mb-5">
+      
       <div class="row">
         <div class="col">
           <h3 class="text-center">Danh sách chờ</h3>
@@ -34,8 +41,9 @@
         </button>
       </div>
     </nav>
-  </body>
-  <%- include("./partials/script") %>
+    <%- include("./partials/script") %>
+    <%- include("./partials/driverCheckWallet") %>
+    <%- include("./partials/driverCheckDrive") %>  
   <script>
     const btnConnect = document.querySelector("#btn-connect");
     const btnRefresh = document.querySelector("#btn-refresh");
@@ -43,5 +51,9 @@
       document.getElementById("information-modal")
       );
   </script>
-  <script type="module" src="/js/driver.js"></script>
+  <script src="/js/format.js"></script>
+  <script src="/js/driver.js"></script>
+  
+  </body>
+  
 </html>
