@@ -3,6 +3,7 @@ let map, infoWindow;
 let markers = [];
 let infoWindows = [];
 let directionsRenderer, directionsService;
+const distanceField = document.getElementById("distance");
 
 //initialize map and elements
 async function initMap() {
@@ -25,6 +26,7 @@ async function initMap() {
   //add function for place-item
   // renderPlaceSearchHistory(placeSearchHistory);
 
+  //NHẤN VÀO CÁC ĐỀ XUẤT NƠI ĐẾN
   let placeItems = document.querySelectorAll("#place-item");
   placeItems.forEach((item) => {
     item.addEventListener("click", () => {
@@ -61,6 +63,7 @@ async function initMap() {
   const originInput = document.getElementById("origin-input");
   const destinationInput = document.getElementById("destination-input");
 
+  //HIỂN THỊ CÁC ĐỀ XUẤT NƠI CẦN ĐẾN
   const onInputChanged = (e) => {
     const request = {
       input: e.target.value,

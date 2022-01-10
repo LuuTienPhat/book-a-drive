@@ -12,6 +12,15 @@
       .gm-ui-hover-effect {
         display: none !important;
       }
+
+      .gm-style-iw.gm-style-iw-c {
+        padding: 0;
+        
+      }
+      .gm-style-iw-d {
+        margin: 10px;
+        font-size: 16px;
+      }
     </style>
   </head>
 
@@ -22,6 +31,8 @@
     <div class="container-fluid mt-3" style="height: 40vh">
       <div class="row">
         <div class="col">
+
+          <!-- TÌM KIẾM NƠI MUỐN ĐẾN -->
           <div id="search-bar"
             class="d-flex bg-secondary py-3 px-3 rounded"
             data-bs-toggle="modal"
@@ -35,6 +46,7 @@
             </h4>
           </div>
 
+          <!-- HIỆN LỊCH SỬ ĐI LẠI GẦN NHẤT -->
           <div id="history-panel"
             class="mt-2 h-100 w-100 d-flex flex-column justify-content-center"
           >
@@ -59,6 +71,7 @@
             <% } %> <% } %>
           </div>
 
+          <!-- HIỆN GIÁ TIỀN CHO QUÃNG ĐƯỜNG ĐI -->
           <div class="price-list d-none">
             <h6 class="" style="font-size: 14px">Phương tiện đề xuất</h6>
             <div
@@ -99,6 +112,7 @@
             <!-- Modal -->
           </div>
 
+          <!-- HIỆN THÔNG TIN TÀI XẾ Ở TRANG KHÁCH HÀNG -->
           <div id="driver-panel" class="w-100 d-none">
             <div class="border border-2 border-success p-3 rounded mb-2">
               <h4 class="my-0 text-success">Đã tìm thấy tài xế cho bạn ...</h4>
@@ -113,22 +127,19 @@
                 class="bi bi-person-bounding-box text-info"
                 style="font-size: 50px"
               ></i>
-              <!-- <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                          </p> -->
             </div>
             <div
               class="d-flex justify-content-end border border-2 border-danger rounded p-2"
             >
-              <div class="btn btn-danger">Huỷ chuyến</div>
+              <button id="btn-cancel-drive" class="btn btn-danger">Huỷ chuyến</button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
 
-    <div
-      id="search-modal"
+    <div id="search-modal"
       class="modal fade"
       tabindex="-1"
       aria-labelledby="staticBackdropLabel"
@@ -210,8 +221,7 @@
       </div>
     </div>
 
-    <div
-      id="search-driver-modal"
+    <div id="search-driver-modal"
       class="modal fade"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
@@ -283,6 +293,72 @@
         </div>
       </div>
     </div>
+
+    <div id="notification-modal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Thông báo
+            </h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body text-center">
+            <h3 class="my-0 text-success">Tài xế đã đến rồi.</h3>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Đồng ý
+            </button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cancel-modal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Tài xế đã huỷ chuyến
+            </h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body text-center">
+            <p class="my-0 text-primary">Chúng tôi thành thật xin lỗi về sự bất tiện này<br> 
+              Xin bạn hãy đặt cuốc xe khác
+            </p>
+          </div>
+          <div class="modal-footer">
+            <a href="/customer">
+            <button
+              type="button"
+              class="btn btn-primary"
+            >
+              Đồng ý
+            </button>
+          </a>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <%- include("./partials/script") %>
     <script>
       const pricePanel = document.querySelector(".price-list");
@@ -301,6 +377,20 @@
       );
       const searchDriverModal = new bootstrap.Modal(
         document.getElementById("search-driver-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+      const notificationModal = new bootstrap.Modal(
+        document.getElementById("notification-modal"),
+        {
+          backdrop: "static",
+          keyboard: false,
+        }
+      );
+      const cancelModal = new bootstrap.Modal(
+        document.getElementById("cancel-modal"),
         {
           backdrop: "static",
           keyboard: false,
