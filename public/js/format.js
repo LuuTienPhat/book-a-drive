@@ -13,5 +13,3 @@ const kilometerFormat = (number) => {
   });
   return formatter.format(number);
 };
-
-export { vietnamMoneyFormat, kilometerFormat };
