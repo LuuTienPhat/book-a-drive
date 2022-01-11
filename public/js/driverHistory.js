@@ -31,7 +31,7 @@ async function init() {
   const renderSwiper = (() => {
     let map = [];
 
-    for (let i = 15; i >= 0; i--) {
+    for (let i = 60; i >= 0; i--) {
       map.push(
         `<div class="swiper-slide text-dark border border-secondary border-2 rounded"
             data-date="${moment()
@@ -169,9 +169,7 @@ async function init() {
         }
       }
       axios
-        .get(
-          `http://localhost:3001/drivers/histories?driverId=${driverId}&&date=${date}`
-        )
+        .get(`http://localhost:3001/drives?driverId=${driverId}&&date=${date}`)
         .then((res) => {
           return res.data;
         })
