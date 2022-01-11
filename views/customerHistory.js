@@ -26,7 +26,7 @@ async function init() {
     });
   };
 
-  socket.driverId = await getDriverId();
+  socket.customerId = await getDriverId();
 
   const renderSwiper = (() => {
     let map = [];
@@ -158,7 +158,7 @@ async function init() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const date = button.dataset.date;
-      const driverId = socket.driverId;
+      const customerId = socket.customerId;
       for (let i = 0; i < buttons.length; i++) {
         if (buttons[i].dataset.key == button.dataset.key) {
           buttons[i].classList.remove("border-secondary");
@@ -169,7 +169,9 @@ async function init() {
         }
       }
       axios
-        .get(`http://localhost:3001/drives?driverId=${driverId}&&date=${date}`)
+        .get(
+          `http://localhost:3001/drives?customerIdId=${driverId}&&date=${date}`
+        )
         .then((res) => {
           return res.data;
         })

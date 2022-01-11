@@ -1,52 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const {
-  renderCustomerPage,
-  renderLoginPage,
-  renderRegisterPage,
-  postRegisterPage,
-  postLoginPage,
-  logOut,
-  renderSearchPage,
-  renderProfilePage,
-  putProfilePage,
-  renderForgotPasswordPage,
-} = require("../controllers/customer.controller");
+const controller = require("../controllers/customer.controller");
+const session = require("express-session");
 
-router.use(cookieParser());
-
-router.use(express.urlencoded({ extended: false }));
-
-router.get("/", checkAuthenticated, renderCustomerPage);
-
-router.get("/search", checkAuthenticated, renderSearchPage);
-
-router.get("/login", checkNotAuthenticated, renderLoginPage);
-
-router.post("/login", checkNotAuthenticated, postLoginPage);
-
-router.get("/register", checkNotAuthenticated, renderRegisterPage);
-
-router.post("/register", checkNotAuthenticated, postRegisterPage);
-
-router.get("/forgot-password", checkNotAuthenticated, renderForgotPasswordPage);
-
-router.get("/profile", checkAuthenticated, renderProfilePage);
-
-router.put("/profile", checkAuthenticated, putProfilePage);
-
-router.get("/logout", checkAuthenticated, logOut);
+router.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: "somesecret",
+  })
+);
 
 function checkAuthenticated(req, res, next) {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, "kh", (err, decoded) => {
       if (err) {
-        res.redirect("/customer/login");
+        return res.redirect("/customer/login");
       } else {
-        next();
+        return next();
       }
     });
   } else {
@@ -68,5 +41,29 @@ function checkNotAuthenticated(req, res, next) {
     return next();
   }
 }
+
+router.get("/", checkAuthenticated, controller.renderCustomerPage);
+
+router.get("/search", checkAuthenticated, controller.renderSearchPage);
+
+router.get("/login", checkNotAuthenticated, controller.renderLoginPage);
+
+router.post("/login", checkNotAuthenticated, controller.postLoginPage);
+
+router.get("/register", checkNotAuthenticated, controller.renderRegisterPage);
+
+router.get(
+  "/forgot-password",
+  checkNotAuthenticated,
+  controller.renderForgotPasswordPage
+);
+
+router.get("/profile", checkAuthenticated, controller.renderProfilePage);
+
+router.put("/profile", checkAuthenticated, controller.putProfilePage);
+
+router.get("/logout", checkAuthenticated, controller.logOut);
+
+router.get("/history", checkAuthenticated, controller.renderHistoryPage);
 
 module.exports = router;
